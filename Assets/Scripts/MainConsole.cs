@@ -6,9 +6,13 @@ public class MainConsole : MonoBehaviour {
 	Rect textAreaTop;
 	Rect textAreaBottom;
 	string userText;
-	string userTextTop;
+	string room;
+	string userTextTop = "Logging into LightStream.\n";
+
 	// Use this for initialization
 	void Start () {
+		userTextTop += "Logged in. Routing you to last room; The Wiccan Imperial Suite. What would you like to do? (try: examine room)\n";
+		room = "intro";
 		textAreaTop = new Rect(0,0,Screen.width, Screen.height - Screen.height/9);
 		textAreaBottom = new Rect(0, Screen.height - Screen.height/8, Screen.width, Screen.height/10);
 	} 
@@ -33,6 +37,8 @@ public class MainConsole : MonoBehaviour {
 				userText += ' ';
 			else if (Event.current.keyCode == KeyCode.Return){
 				userTextTop = userTextTop != null ? userTextTop += "\nUSER: " + userText : "USER: " + userText;
+				userTextTop += "\n";
+				ParseInput(userText, room);
 				userText = "";
 			}
 			else if( Event.current.keyCode == KeyCode.Backspace && userText != null)
@@ -110,5 +116,32 @@ public class MainConsole : MonoBehaviour {
 			else if (Event.current.keyCode == KeyCode.Keypad0 || Event.current.keyCode == KeyCode.Alpha0)
 				userText += "0";
 		}
+	}
+
+	void ParseInput(string input, string room) {
+		input = input.ToLower();
+		if (room == "intro") {
+			if (input == "<i>examine</i> <b>room</b>") {
+				userTextTop += "A <b>bookcase</b>, a shaft of <b>light</b> to our right. Looks like someone's office.\n";
+			} else if (input == "examine bookcase") {
+				userTextTop += "Each book, except for one, is inverted. The only book with a visible spine is called <b>Lightweight</b>.'\nWe might wanna <i>lookup</i> that book.\n";
+			} else if (input == "examine light") {
+				userTextTop += "An expanse. The city remains abuzz, precalculated pylons and technical terror behind the walls. It's raining.\n";
+			} else if (input == "lookup lightweight") {
+				userTextTop += "Okay, okay, okay... Yeah, got it! That book doesn't exist. Hmm. Should we <i>touch</i> it?\n";
+			} else if (input == "touch lightweight") {
+				userTextTop += "We lift it out, and out of it falls a <b>key</b>.\n";
+			} else {
+				userTextTop += "Input Unrecognized.\n";
+			}
+		} else {
+			userTextTop += "Input Unrecognized.\n";
+		}
+
+//		if (input == "look" && room == "intro") {
+//			userTextTop += "A bookcase, a shaft of light to our right. Looks like someone's office.\n";
+//		} else {
+//			userTextTop += "Input Unrecognized.\n";
+//		}
 	}
 }
