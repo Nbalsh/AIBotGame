@@ -158,7 +158,7 @@ public class MainConsole : MonoBehaviour {
 				userTextTop += "Okay, okay, okay... Yeah, got it! That book doesn't exist. Hmm. Should we <i>touch</i> it?\n";
 				it = "lightweight";
 			} 
-			else if (input == "touch lightweight" || (input == "touch it" && it == "lightweight") || input == "touch book") 
+			else if ((input == "touch lightweight" || (input == "touch it" && it == "lightweight") || input == "touch book") && hasSeen.Contains("bookcase")) 
 			{
 				userTextTop += "We lift it out, and out falls a <b>key</b>.\n"; 
 				it = "key";
