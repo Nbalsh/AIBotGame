@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class MainConsole : MonoBehaviour {
-	bool showText = true;
+	bool showText = false;
 	Rect textAreaTop;
 	Rect textAreaBottom;
 	string userText;
@@ -19,6 +19,14 @@ public class MainConsole : MonoBehaviour {
 		textAreaBottom = new Rect(0, Screen.height - Screen.height/8, Screen.width, Screen.height/10);
 		hasSeen = new List<string> ();
 	} 
+	
+	public void activateConsole() {
+		showText = true;
+	}
+	
+	public void deactivateConsole() {
+		showText = false;
+	}
 	
 	void OnGUI(){
 
@@ -150,7 +158,7 @@ public class MainConsole : MonoBehaviour {
 				userTextTop += "Okay, okay, okay... Yeah, got it! That book doesn't exist. Hmm. Should we <i>touch</i> it?\n";
 				it = "lightweight";
 			} 
-			else if (input == "touch lightweight" || (input == "touch it" && it == "lightweight") || input == "touch book") 
+			else if ((input == "touch lightweight" || (input == "touch it" && it == "lightweight") || input == "touch book") && hasSeen.Contains("bookcase")) 
 			{
 				userTextTop += "We lift it out, and out falls a <b>key</b>.\n"; 
 				it = "key";
