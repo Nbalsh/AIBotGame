@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class MainConsole : MonoBehaviour {
-	bool showText = true;
+	bool showText = false;
 	Rect textAreaTop;
 	Rect textAreaBottom;
 	string userText;
@@ -16,6 +16,14 @@ public class MainConsole : MonoBehaviour {
 		textAreaTop = new Rect(0,0,Screen.width, Screen.height - Screen.height/9);
 		textAreaBottom = new Rect(0, Screen.height - Screen.height/8, Screen.width, Screen.height/10);
 	} 
+	
+	public void activateConsole() {
+		showText = true;
+	}
+	
+	public void deactivateConsole() {
+		showText = false;
+	}
 	
 	void OnGUI(){
 
