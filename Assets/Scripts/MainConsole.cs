@@ -11,7 +11,7 @@ public class MainConsole : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		userTextTop += "Logged in. Routing you to last room; The Wiccan Imperial Suite. What would you like to do? (try: examine room)\n";
+		userTextTop += "Logged in. Routing you to last room; The Wiccan Imperial Suite. What would you like to do? (try: <i>examine</i> <b>room</b>)\n";
 		room = "intro";
 		textAreaTop = new Rect(0,0,Screen.width, Screen.height - Screen.height/9);
 		textAreaBottom = new Rect(0, Screen.height - Screen.height/8, Screen.width, Screen.height/10);
@@ -121,10 +121,10 @@ public class MainConsole : MonoBehaviour {
 	void ParseInput(string input, string room) {
 		input = input.ToLower();
 		if (room == "intro") {
-			if (input == "<i>examine</i> <b>room</b>") {
+			if (input == "examine room") {
 				userTextTop += "A <b>bookcase</b>, a shaft of <b>light</b> to our right. Looks like someone's office.\n";
 			} else if (input == "examine bookcase") {
-				userTextTop += "Each book, except for one, is inverted. The only book with a visible spine is called <b>Lightweight</b>.'\nWe might wanna <i>lookup</i> that book.\n";
+				userTextTop += "Each book, except for one, is inverted. The only book with a visible spine is called '<b>Lightweight</b>.'\nWe might wanna <i>lookup</i> that book.\n";
 			} else if (input == "examine light") {
 				userTextTop += "An expanse. The city remains abuzz, precalculated pylons and technical terror behind the walls. It's raining.\n";
 			} else if (input == "lookup lightweight") {
