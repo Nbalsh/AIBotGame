@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MainConsole : MonoBehaviour {
 	bool showText = true;
@@ -7,14 +8,16 @@ public class MainConsole : MonoBehaviour {
 	Rect textAreaBottom;
 	string userText;
 	string room;
-	string userTextTop = "Logging into LightStream.\n";
+	string userTextTop = "Logging into LightSpun.\n";
+	List<string> hasSeen;
 
 	// Use this for initialization
 	void Start () {
-		userTextTop += "Logged in. Routing you to last room; The Wiccan Imperial Suite. What would you like to do? (try: <i>examine</i> <b>room</b>)\n";
+		userTextTop += "Logged in. Routing you to last room; Roberta Wikkan's study. What would you like to do? (try: <i>examine</i> <b>room</b>)\n";
 		room = "intro";
 		textAreaTop = new Rect(0,0,Screen.width, Screen.height - Screen.height/9);
 		textAreaBottom = new Rect(0, Screen.height - Screen.height/8, Screen.width, Screen.height/10);
+		hasSeen = new List<string> ();
 	} 
 	
 	void OnGUI(){
@@ -120,21 +123,60 @@ public class MainConsole : MonoBehaviour {
 
 	void ParseInput(string input, string room) {
 		input = input.ToLower();
+		var it = "";
+//		var inventory = new List<string> ();
+		//commands: examine, lookup, touch
+		//objects: room, bookcase, light, LightWeight, key
 		if (room == "intro") {
 			if (input == "examine room") {
 				userTextTop += "A <b>bookcase</b>, a shaft of <b>light</b> to our right. Looks like someone's office.\n";
-			} else if (input == "examine bookcase") {
-				userTextTop += "Each book, except for one, is inverted. The only book with a visible spine is called '<b>Lightweight</b>.'\nWe might wanna <i>lookup</i> that book.\n";
-			} else if (input == "examine light") {
+				it = "";
+				hasSeen.Add ("room");
+			} 
+			else if (input == "examine light" && hasSeen.Contains("room")) 
+			{
 				userTextTop += "An expanse. The city remains abuzz, precalculated pylons and technical terror behind the walls. It's raining.\n";
-			} else if (input == "lookup lightweight") {
+				it = "";
+				hasSeen.Add ("light");
+			} 
+			else if (input == "examine bookcase" && hasSeen.Contains("room")) 
+			{
+				userTextTop += "Each book, except for one, is inverted. The only book with a visible spine is called '<b>Lightweight</b>.'\nWe might wanna <i>lookup</i> that book.\n";
+				it = "lightweight";
+				hasSeen.Add ("bookcase");
+			} 
+			else if ((input == "lookup lightweight" || input == "lookup book" || (input == "lookup it" && it == "lightweight")) && hasSeen.Contains("bookcase")) 
+			{
 				userTextTop += "Okay, okay, okay... Yeah, got it! That book doesn't exist. Hmm. Should we <i>touch</i> it?\n";
-			} else if (input == "touch lightweight") {
-				userTextTop += "We lift it out, and out of it falls a <b>key</b>.\n";
-			} else {
+				it = "lightweight";
+			} 
+			else if (input == "touch lightweight" || (input == "touch it" && it == "lightweight") || input == "touch book") 
+			{
+				userTextTop += "We lift it out, and out falls a <b>key</b>.\n"; 
+				it = "key";
+			} 
+			else if (input == "examine key" || (input == "examine it" && it == "key")) 
+			{
+				userTextTop += "Bronze, basic. Tiny text running along the edge reads: 'O B V I O U S'\n"; 
+				it = "key";
+			} 
+			else if (input == "lookup key" || (input == "lookup it" && it == "key")) 
+			{
+				userTextTop += "We lift it out, and out falls a <b>key</b>.\n";
+				it = "key";
+			} 
+			else if (input == "touch key" || (input == "touch it" && it == "key")) 
+			{
+				userTextTop += "We lift it out, and out falls a <b>key</b>.\n"; 
+				it = "key";
+			} 
+			else 
+			{
 				userTextTop += "Input Unrecognized.\n";
+				it = "";
 			}
 		} else {
+			it = "";
 			userTextTop += "Input Unrecognized.\n";
 		}
 
