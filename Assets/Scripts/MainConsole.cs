@@ -133,6 +133,7 @@ public class MainConsole : MonoBehaviour {
 		input = input.ToLower();
 		var it = "";
 //		var inventory = new List<string> ();
+		//criminal dbs, dna dbs, fingerprint dbs, weapons, addresses/who-lives-where, names, products, news, feeds (local social media), 
 		//commands: examine, lookup, touch
 		//objects: room, bookcase, light, LightWeight, key
 		if (room == "intro") {
@@ -143,16 +144,30 @@ public class MainConsole : MonoBehaviour {
 			} 
 			else if (input == "examine light" && hasSeen.Contains("room")) 
 			{
-				userTextTop += "An expanse. The city remains abuzz, precalculated pylons and technical terror behind the walls. It's raining.\n";
+				userTextTop += "An expanse. The city remains abuzz, precalculated pylons and technical terror behind the walls. It's <b>raining</b>.\n";
 				it = "";
 				hasSeen.Add ("light");
-			} 
+			}
+			else if ((input == "examine raining" || input == "examine rain") && hasSeen.Contains("light")) 
+			{
+				userTextTop += "Stand right next to the window, yet the rain is soundless. There's a latch with a lock at the bottom, and... yep, that's our way forward. Huh.\n";
+				it = "";
+				if (hasSeen.Contains("key")) {
+					userTextTop += "The key, the latch, they look like a match. Try the <i>use</i> command.\n";
+				}
+				hasSeen.Add ("rain");
+			}
 			else if (input == "examine bookcase" && hasSeen.Contains("room")) 
 			{
-				userTextTop += "Each book, except for one, is inverted. The only book with a visible spine is called '<b>Lightweight</b>.'\nWe might wanna <i>lookup</i> that book.\n";
+				userTextTop += "Each book, except for one, is inverted. The only book with a visible spine is called '<b>Lightweight</b>.'\nWe might wanna <i>lookup</i> that book. Also, there isn't a <b>door</b>?\n";
 				it = "lightweight";
 				hasSeen.Add ("bookcase");
 			} 
+			else if (input == "examine door") 
+			{
+				userTextTop += "There... there isn't a door.\n";
+				it = "";
+			}
 			else if ((input == "lookup lightweight" || input == "lookup book" || (input == "lookup it" && it == "lightweight")) && hasSeen.Contains("bookcase")) 
 			{
 				userTextTop += "Okay, okay, okay... Yeah, got it! That book doesn't exist. Hmm. Should we <i>touch</i> it?\n";
@@ -162,20 +177,24 @@ public class MainConsole : MonoBehaviour {
 			{
 				userTextTop += "We lift it out, and out falls a <b>key</b>.\n"; 
 				it = "key";
+				hasSeen.Add ("key");
 			} 
-			else if (input == "examine key" || (input == "examine it" && it == "key")) 
+			else if ((input == "examine key" || (input == "examine it" && it == "key")) && hasSeen.Contains("key"))
 			{
 				userTextTop += "Bronze, basic. Tiny text running along the edge reads: 'O B V I O U S'\n"; 
 				it = "key";
 			} 
-			else if (input == "lookup key" || (input == "lookup it" && it == "key")) 
+			else if ((input == "lookup key" || (input == "lookup it" && it == "key")) && hasSeen.Contains("key"))
 			{
-				userTextTop += "We lift it out, and out falls a <b>key</b>.\n";
+				userTextTop += "ob·vi·ous adj. 1. Easily perceived or understood; apparent. 2. Easily seen through because of a lack of subtlety; transparent: an obvious political ploy that fooled no one.\n";
 				it = "key";
 			} 
-			else if (input == "touch key" || (input == "touch it" && it == "key")) 
+			else if ((input == "touch key" || (input == "touch it" && it == "key")) && hasSeen.Contains("key"))
 			{
-				userTextTop += "We lift it out, and out falls a <b>key</b>.\n"; 
+				userTextTop += "It's got a weird weight to it. Deeply unsatisfying.\n";
+				if (hasSeen.Contains("rain")) {
+					userTextTop += "The key, the latch, they look like a match. Try the <i>use</i> command.\n";
+				}
 				it = "key";
 			} 
 			else 

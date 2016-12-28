@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class CameraSwitch : MonoBehaviour {
 	
@@ -8,12 +9,13 @@ public class CameraSwitch : MonoBehaviour {
 	public Camera consoleCamera;
 	public GameObject Player;
 	private MainConsole playerConsoleScript;
-	private PlayerMovement playerMovementScript;
+//	private PlayerMovement playerMovementScript;
+	private FirstPersonController_ai playerMovementScript;
 
 	// Use this for initialization
 	void Start () {
 		playerConsoleScript = playerCamera.GetComponent<MainConsole>();
-		playerMovementScript = Player.GetComponent<PlayerMovement>();
+		playerMovementScript = Player.GetComponent<FirstPersonController_ai>();
 		ShowPlayerView();
 	}
 	
